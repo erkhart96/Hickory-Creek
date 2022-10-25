@@ -11,6 +11,12 @@ class CollectedItemsController < ApplicationController
         render json: collected_item.item, status: :created
     end
 
+    def destroy
+        collected_item = CollectedItem.find(params[:id])
+        collected_item.destroy
+        render json: {}, status: :ok
+    end
+
     private
     def ci_params
         params.permit(:character_id, :item_id)

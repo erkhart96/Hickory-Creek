@@ -7,4 +7,10 @@ class CharactersController < ApplicationController
         character = Character.find(params[:id])
         render json: character, status: :ok
     end
+
+    def destroy
+        character = Character.find(params[:id])
+        character.destroy
+        render json: {}, status: :ok
+    end
 end
