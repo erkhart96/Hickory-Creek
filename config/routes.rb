@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   post "/signup", to: "characters#create"
   delete "/logout", to: "sessions#destroy"
+  get "/currentcharacter", to: "characters#show"
 
   get '*path',
   to: 'fallback#index',

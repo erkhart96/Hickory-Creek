@@ -4,8 +4,12 @@ class CharactersController < ApplicationController
     end
 
     def show
-        character = Character.find(params[:id])
-        render json: character, status: :ok
+        character = Character.find(session[:character_id])
+        if character
+            render json: character, status: :ok
+        else
+            render json: {error: 'Not authorized'}, status: :unauthorized
+        end
     end
 
     def create
