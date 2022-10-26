@@ -4,16 +4,14 @@ class CharactersController < ApplicationController
     end
 
     def show
-        character = Character.find(session[:id])
-        if character
-            render json: character, status: :ok
-        else
-            render json: {error: "Not authorized"}, status: :unauthorized
+        character = Character.find(params[:id])
+        render json: character, status: :ok
     end
 
     def create
         character = Character.create!(character_params)
         CharacterChoice.create(character_id: character.id, choice_id: 0)
+        CollectedItem.create(character_id: character.id, item_id: 4)
         session[:character_id] = character.id
         render json: character, status: :created
     end
@@ -26,7 +24,6 @@ class CharactersController < ApplicationController
 
     private
     def character_params
-        params.permit(:username, :password)
+        params.permit(:username, :password, :health)
     end
-end
 end
