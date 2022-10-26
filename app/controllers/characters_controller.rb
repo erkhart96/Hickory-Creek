@@ -14,7 +14,7 @@ class CharactersController < ApplicationController
 
     def create
         character = Character.create!(character_params)
-        CharacterChoice.create(character_id: character.id, choice_id: 0)
+        CharacterChoice.create(character_id: character.id, choice_id: 1)
         CollectedItem.create(character_id: character.id, item_id: 4)
         session[:character_id] = character.id
         render json: character, status: :created
@@ -28,6 +28,6 @@ class CharactersController < ApplicationController
 
     private
     def character_params
-        params.permit(:username, :password, :health)
+        params.permit(:username, :password)
     end
 end
