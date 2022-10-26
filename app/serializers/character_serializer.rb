@@ -1,4 +1,4 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :health
+  attributes :id, :username, :health
   has_many :items
 end
