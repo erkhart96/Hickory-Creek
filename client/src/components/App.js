@@ -1,23 +1,21 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./Home";
-import Login from "./Login";
 import '../App.css'
+import Login from './Login';
+import Home from './Home'
+import {Routes, Route} from 'react-router-dom'
+import Signup from './Signup';
 
 function App() {
-
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Switch>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/">
-            <Login />
-          </Route>
-        </Switch>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <Routes>
+        <Route path='/' element={<Login/>}>
+        </Route>
+        <Route exact path='/home' element={<Home />}>
+        </Route>
+        <Route exact path='/signup' element={<Signup />}>
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
