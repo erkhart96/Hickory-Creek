@@ -6,6 +6,11 @@ class CollectedItemsController < ApplicationController
         render json: CollectedItem.all, status: :ok
     end
 
+    def show
+        collected_item = CollectedItem.find(params[:id])
+        render json: collected_item, status: :ok
+    end
+
     def create
         collected_item = CollectedItem.create!(ci_params)
         render json: collected_item.item, status: :created

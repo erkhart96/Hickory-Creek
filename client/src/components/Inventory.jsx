@@ -3,35 +3,35 @@ import { Card, Container, Button } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-function Inventory({ inventory }) {
+function Inventory({ character }) {
 
-    useEffect(() => {
-        fetch('/collected_items')
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data)
-        })
-    },[])
+    const collectedItemMap = character.collected_items.map((item) =>{
+        return (item)
+    })
 
-    // const handleItemDiscard = (id) => {
-    //     fetch(`/collected_items/${id}`, {
-    //         method: 'DELETE'
-    //     })
-    //     .then((res) => {
-    //         if (res.ok) {
-    //             console.log("Delete Successful!")
-    //         }
-    //     })
-    // }
+    const handleItemDiscard = (id) => {
+        collectedItemMap.map((item) => {
+            if (id === item.item_id) {
+                fetch(`/collected_items/${item.id}`, {
+                    method: "DELETE"
+                })
+                .then((res) => {
+                    if (res.ok) {
+                        window.location.reload(false)
+                        console.log("Delete successful!")
+                    }
+                })
+            }
+        }) 
+    }
 
 
-
-    const inventoryMap = inventory.map((inv) => {
+    const inventoryMap = character.items.map((inv) => {
         return (
             <div>
                 <p>{inv.name}</p>
                 <p>Durability: {inv.durability}</p>
-                <Button>Discard</Button>
+                <Button onClick={() => handleItemDiscard(inv.id)}>Discard</Button>
             </div>
         )
     })

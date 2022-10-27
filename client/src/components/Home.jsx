@@ -1,9 +1,10 @@
-import { Container, Card, CardContent, Typography, Button } from '@mui/material'
+import { Container, Card, CardContent, Typography, Button, Box, Modal } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import Inventory from './Inventory'
+import InventoryModal from './InventoryModal'
 
 function Home() {
 
@@ -11,8 +12,14 @@ function Home() {
     const [location, setLocation] = useState('')
     const [inventory, setInventory] = useState([])
     const [inventoryClicked, setInventoryClicked] = useState(false)
+    const [placedItems, setPlacedItems] = useState()
+    const [open, setOpen] = useState(false);
+    const [foundItem, setFoundItem] = useState()
 
     const navigate = useNavigate();
+    const showModal = (
+        <InventoryModal open={open} setOpen={setOpen} foundItem={foundItem} character={character} />
+    )
 
    useEffect(() => {
     fetch('/currentcharacter').then((res) => {
@@ -22,6 +29,16 @@ function Home() {
                 setLocation(character.upcoming_situation.location)
                 setInventory(character.items)
                 console.log(character)
+            })
+        }
+    })
+   }, [])
+
+   useEffect(() => {
+    fetch('/items').then((res) => {
+        if (res.ok) {
+            res.json().then((items) => {
+                setPlacedItems(items)
             })
         }
     })
@@ -89,6 +106,20 @@ function Home() {
     }
    }
 
+   
+   
+   const handleSearchClick = () => {
+        if (placedItems) {
+            const itemMap = placedItems.map((item) => {
+                if (item.location === location) {
+                    console.log(item)
+                    setFoundItem(item)
+                    setOpen(true)
+                }
+            })
+        }
+   }
+
   return (
     <>
     <div>
@@ -111,12 +142,13 @@ function Home() {
             </Container>
             <Container sx={{display: 'grid', gridAutoFlow: 'column', gridColumnGap: '100px', paddingTop: '250px'}}>
                 {choicesMap()}
-                <Button variant='contained'>Search for items</Button>
+                <Button variant='contained' onClick={handleSearchClick}>Search for items</Button>
+                {open ? showModal : null}
                 <Button variant='contained' onClick={handleInventoryClick}>Inventory</Button>
             </Container>
         </CardContent>
         </Card>
-        {inventoryClicked ? <Inventory inventory={inventory} /> : null} 
+        {inventoryClicked ? <Inventory inventory={inventory} character={character} /> : null} 
     </Container>
     </>
   )
