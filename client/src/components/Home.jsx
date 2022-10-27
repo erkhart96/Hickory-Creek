@@ -3,10 +3,14 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
+import Inventory from './Inventory'
 
 function Home() {
 
     const [character, setCharacter] = useState(null);
+    const [location, setLocation] = useState('')
+    const [inventory, setInventory] = useState([])
+    const [inventoryClicked, setInventoryClicked] = useState(false)
 
     const navigate = useNavigate();
 
@@ -15,6 +19,9 @@ function Home() {
         if (res.ok) {
             res.json().then((character) => {
                 setCharacter(character)
+                setLocation(character.upcoming_situation.location)
+                setInventory(character.items)
+                console.log(character)
             })
         }
     })
@@ -63,6 +70,10 @@ function Home() {
     })
    }
 
+   const handleInventoryClick = () => {
+    setInventoryClicked(!inventoryClicked)
+   }
+
    const renderStory = character ? <Container key={character.upcoming_situation.id}>
     {character.upcoming_situation_text}
    </Container> : <Container></Container>
@@ -91,6 +102,9 @@ function Home() {
        <Card sx={{display: 'flex', padding: 0, margin: 0, justifyContent: 'center', alignItems: 'center', height: '50vh'}}>
         <CardContent>
             <Container sx={{display: 'flex', justifyContent: 'center', width: 1200, paddingTop: '50px'}}>
+                <div>
+                    <h2>{location}</h2>
+                </div>
             <Typography>
                 {renderStory}
             </Typography>
@@ -98,9 +112,11 @@ function Home() {
             <Container sx={{display: 'grid', gridAutoFlow: 'column', gridColumnGap: '100px', paddingTop: '250px'}}>
                 {choicesMap()}
                 <Button variant='contained'>Search for items</Button>
+                <Button variant='contained' onClick={handleInventoryClick}>Inventory</Button>
             </Container>
         </CardContent>
-        </Card> 
+        </Card>
+        {inventoryClicked ? <Inventory inventory={inventory} /> : null} 
     </Container>
     </>
   )

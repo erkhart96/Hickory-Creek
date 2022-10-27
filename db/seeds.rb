@@ -9,7 +9,7 @@ makeshift_knife = Item.create(name: 'Makeshift Knife', location: 'Cellar', durab
 knife = Item.create(name: 'Knife', location: 'Kitchen', durability: 10, value: 50)
 axe = Item.create(name: 'Axe', location: 'Barn', durability: 15, value: 70)
 tape = Item.create(name: 'Tape', location: 'Shed', durability: 1, value: 5)
-stick = Item.create(name: 'Stick', location: 'Woods', durability: 3, value: 1)
+stick = Item.create(name: 'Stick', location: 'Road', durability: 3, value: 1)
 string = Item.create(name: 'String', location: 'Living Room', durability: 1, value: 5)
 chemicals = Item.create(name: 'Chemicals', location: 'House', durability: 1, value: 10)
 pistol = Item.create(name: 'Pistol', location: 'Safe', durability: 2, value: 150)
@@ -18,9 +18,9 @@ puts 'Placing starter item in inventory...'
 CollectedItem.create(character_id: 1, item_id: 4)
 
 puts 'Creating situations...'
-situation1 = Situation.create(story_text: "You find yourself on a straight road. It's Dark. There's nothing but silence. Up ahead you come to a dead end. Seems like left or right are your only options.")
-situation2a = Situation.create(story_text: '2A')
-situation2b = Situation.create(story_text: '2B')
+situation1 = Situation.create(story_text: "You find yourself on a straight road. It's Dark. There's nothing but silence. Up ahead you come to a dead end. Seems like left or right are your only options.", location: 'Road')
+situation2a = Situation.create(story_text: '2A', location: 'Barn')
+situation2b = Situation.create(story_text: '2B', location: 'House')
 
 puts 'Generating your choices...'
 choice0 = Choice.create(choice_text: 'In the Beginning')
