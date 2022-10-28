@@ -193,6 +193,10 @@ function Home() {
     });
   };
 
+  const handleAbout = () => {
+    navigate("/about");
+  };
+
   return (
     <>
       <div>
@@ -212,6 +216,13 @@ function Home() {
           sx={{ marginLeft: 1 }}
         >
           Reset
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleAbout}
+          sx={{ marginLeft: 1 }}
+        >
+          About
         </Button>
       </Container>
       <br></br>
