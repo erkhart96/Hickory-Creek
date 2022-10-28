@@ -15,6 +15,7 @@ function Home() {
     const [placedItems, setPlacedItems] = useState()
     const [open, setOpen] = useState(false);
     const [foundItem, setFoundItem] = useState()
+    const [equipped, setEquipped] = useState()
 
     const navigate = useNavigate();
     const showModal = (
@@ -74,6 +75,7 @@ function Home() {
     })
    }
 
+
    const handleReset = () => {
     fetch(`/character_choices/${character.character_choice_id}`, {
         method: "PATCH",
@@ -98,15 +100,32 @@ function Home() {
    const choicesMap = () => {
     if (character) {
         const choiceList = character.upcoming_choices.map((choice) => {
-            return (
-                <Button variant="contained" key={choice.id} onClick={() => handleChoiceClick(choice.id)}>{choice.choice_text}</Button>
-            )
+            if (equipped && choice.choice_text === ("Break the door down") && equipped.name === ("Axe") || choice.choice_text !== ("Break the door down")) {
+                return (
+                    <Button variant="contained" key={choice.id} onClick={() => handleChoiceClick(choice.id)}>{choice.choice_text}</Button>
+                )
+            } else {
+                return (
+                    <Button variant="disabled" key={choice.id} onClick={() => handleChoiceClick(choice.id)}>{choice.choice_text}</Button>
+                )
+            }
         })
         return choiceList
     }
    }
 
-   
+   const handleBackClick = () => {
+    fetch(`/character_choices/${character.character_choice_id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({choice_id: character.recent_situation.id}),
+    })
+    .then((res) => {
+        window.location.reload(false)
+    })
+   }
    
    const handleSearchClick = () => {
         if (placedItems) {
@@ -115,10 +134,21 @@ function Home() {
                     console.log(item)
                     setFoundItem(item)
                     setOpen(true)
+                } else {
+                    setOpen(true)
                 }
             })
         }
    }
+
+   const handleEquipItem = (id) => {
+    character.items.map((item) =>{
+        if (id === item.id) {
+            setEquipped(item)
+        }
+    })
+}
+
 
   return (
     <>
@@ -142,13 +172,14 @@ function Home() {
             </Container>
             <Container sx={{display: 'grid', gridAutoFlow: 'column', gridColumnGap: '100px', paddingTop: '250px'}}>
                 {choicesMap()}
+                <Button variant='contained'onClick={handleBackClick}>Go Back</Button>
                 <Button variant='contained' onClick={handleSearchClick}>Search for items</Button>
                 {open ? showModal : null}
                 <Button variant='contained' onClick={handleInventoryClick}>Inventory</Button>
             </Container>
         </CardContent>
         </Card>
-        {inventoryClicked ? <Inventory inventory={inventory} character={character} /> : null} 
+        {inventoryClicked ? <Inventory inventory={inventory} character={character} handleEquipItem={handleEquipItem} equipped={equipped}/> : null} 
     </Container>
     </>
   )

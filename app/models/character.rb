@@ -16,6 +16,10 @@ class Character < ApplicationRecord
         self.character_choices.first.id
     end
 
+    def recent_situation
+        self.recent_choice.situations.first
+    end
+
     def upcoming_situation
         self.recent_choice.situations.last
     end

@@ -37,6 +37,7 @@ function InventoryModal({ foundItem, open, setOpen, character }) {
         window.location.reload(false)
     }
 
+
   return (
     <Modal
         open={open}
@@ -49,8 +50,8 @@ function InventoryModal({ foundItem, open, setOpen, character }) {
             You Found:
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {foundItem.name}
-            <Button onClick={handleTake}>Take</Button>
+            {foundItem ? foundItem.name : "Nothing..."}
+            {foundItem ? <Button onClick={handleTake}>Take</Button> : null}
           </Typography>
         </Box>
       </Modal>

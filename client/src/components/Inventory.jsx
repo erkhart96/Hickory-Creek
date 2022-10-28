@@ -3,7 +3,8 @@ import { Card, Container, Button } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-function Inventory({ character }) {
+function Inventory({ character, handleEquipItem, equipped }) {
+
 
     const collectedItemMap = character.collected_items.map((item) =>{
         return (item)
@@ -31,6 +32,7 @@ function Inventory({ character }) {
             <div>
                 <p>{inv.name}</p>
                 <p>Durability: {inv.durability}</p>
+                <Button onClick={() => handleEquipItem(inv.id)}>Equip</Button>
                 <Button onClick={() => handleItemDiscard(inv.id)}>Discard</Button>
             </div>
         )
@@ -39,9 +41,10 @@ function Inventory({ character }) {
 
   return (
     <Container>
-        <Card sx={{display: 'flex', padding: 0, marginTop: '10px', justifyContent: 'center', alignItems: 'center', height: '30vh'}}>
+        <Card sx={{display: 'flex', padding: 0, marginTop: '10px', justifyContent: 'center', alignItems: 'center'}}>
             <Container>
                 <h2>Inventory</h2>
+                <h3>Equipped Item: {equipped ? equipped.name : "Nothing"}</h3>
                 {inventoryMap}
             </Container>
         </Card>
