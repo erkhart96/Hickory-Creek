@@ -1,5 +1,6 @@
 # Hickory Creek
 
+**** Due to subcription changes within Heroku, this link no longer functions. ****
 https://hickory-creek.herokuapp.com/
 
 A text-adventure game created in the spirit of Halloween by using React and Ruby on Rails.
