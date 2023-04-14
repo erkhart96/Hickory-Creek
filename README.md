@@ -7,7 +7,7 @@ https://hickory-creek.herokuapp.com/
 
 A text-adventure game created in the spirit of Halloween by using React and Ruby on Rails.
 
-Hickory Creek utilizes Ruby on Rails to generate data for React to create a text adventure game. This project was created to display proficiency in React and Rails by creating a full-stack web application. Worked solo to accomplish all deliverables, and deliver a functioning text-adventure game.
+Hickory Creek utilizes Ruby on Rails to generate data for React to create a text adventure game. This project was created in one week to display proficiency in React and Rails by creating a full-stack web application. Worked solo to accomplish all deliverables, and deliver a functioning text-adventure game.
 
 
 
